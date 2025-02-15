@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  tts-app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/static:/app/static:rw
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "mkdir -p /app/static/audio &&
+             chown -R nobody:nogroup /app/static &&
+             chmod -R 777 /app/static &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"

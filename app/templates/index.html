@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text-to-Speech</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎤 Text-to-Speech Converter</h1>
+      <form action="/text-to-speech/" method="post">
+        <textarea
+          name="text"
+          placeholder="Enter text here..."
+          required
+        ></textarea>
+        <div class="options">
+          <label>Select Voice:</label>
+          <select name="voice">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+        </div>
+        <button type="submit">🔊 Generate Audio</button>
+      </form>
+
+      {% if file_url %}
+      <div class="result">
+        <h2>✅ Audio Ready!</h2>
+        <!-- Audio player to play the audio -->
+        <audio controls>
+          <source src="{{ file_url }}" type="audio/mpeg" />
+          Your browser does not support the audio tag.
+        </audio>
+        <br />
+        <!-- Download button -->
+        <button onclick="downloadAudio('{{ file_name }}')" class="download-btn">
+          ⬇️ Download Audio
+        </button>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
+<script>
+  function downloadAudio(fileName) {
+    const url = `/static/audio/${fileName}`;
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+  }
+</script>
